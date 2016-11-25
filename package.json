@@ -1,0 +1,36 @@
+{
+  "name": "ovh-mail-redirection",
+  "version": "1.0.0",
+  "description": "Managing OVH Mail Redirection",
+  "main": "ovh-mail-redirection.js",
+  "keywords": [
+    "ovh",
+    "mail",
+    "redirection",
+    "managing"
+  ],
+  "bin": {
+    "omr": "./ovh-mail-redirection.js"
+  },
+  "scripts": {
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kosssi/ovh-mail-redirection.git"
+  },
+  "author": "Simon Constans <simonc@linux.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kosssi/ovh-mail-redirection/issues"
+  },
+  "homepage": "https://github.com/kosssi/ovh-mail-redirection#readme",
+  "dependencies": {
+    "async": "2.1.4",
+    "email-validator": "1.0.7",
+    "ovh": "2.0.1"
+  },
+  "devDependencies": {
+    "standard": "8.6.0"
+  }
+}
