@@ -2,6 +2,10 @@
 
 ![NPM Licence shield](https://img.shields.io/npm/l/ovh-mail-redirection.svg)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Dependency Status](https://www.versioneye.com/user/projects/58382469e7cea00039353ba7/badge.svg)](https://www.versioneye.com/user/projects/58382469e7cea00039353ba7)
+[![GitHub tag](https://img.shields.io/github/tag/kosssi/ovh-mail-redirection.svg)](https://github.com/kosssi/ovh-mail-redirection/releases)
+[![npm](https://img.shields.io/npm/v/ovh-mail-redirection.svg)](https://www.npmjs.com/package/ovh-mail-redirection)
+[![npm](https://img.shields.io/npm/dt/ovh-mail-redirection.svg)](https://www.npmjs.com/package/ovh-mail-redirection)
 
 Managing OVH Mail Redirection!
 
