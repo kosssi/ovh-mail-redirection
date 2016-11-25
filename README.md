@@ -29,7 +29,6 @@ After:
 
     Usage:  omr <domain> [command]
 
-    omr <domain> list                  list mail redirections
-    omr <domain> create <from> <to>    create mail redirection
-    omr <domain> remove <id>           remove mail redirection
-    omr <domain> update <id> <to>      update mail redirection
+    omr <domain.com>                          list mail redirections
+    omr <from@domain.com> <to@domain2.com>    create or update mail redirection
+    omr rm <mon@domain.com>                   remove mail redirection
