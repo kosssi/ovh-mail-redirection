@@ -1,5 +1,8 @@
 # ovh-mail-redirection
 
+![NPM Licence shield](https://img.shields.io/npm/l/ovh-mail-redirection.svg)
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 Managing OVH Mail Redirection!
 
 
