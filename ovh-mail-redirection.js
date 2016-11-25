@@ -123,8 +123,9 @@ var update = function (domain, id, to, callback) {
   })
 
   var url = '/email/domain/' + domain + '/redirection/' + id + '/changeRedirection'
+  var data = { to: to }
 
-  ovh.request('DELETE', url, function (err, response) {
+  ovh.request('POST', url, data, function (err, response) {
     if (err) {
       console.log('Add Error:')
       return callback(err)
@@ -145,10 +146,9 @@ OVH Mail redirection
 
 Usage:  omr <domain> [command]
 
-omr <domain> list                  list mail redirections
-omr <domain> create <from> <to>    create mail redirection
-omr <domain> remove <id>           remove mail redirection
-omr <domain> update <id> <to>      update mail redirection
+omr <domain.com>                          list mail redirections
+omr <from@domain.com> <to@domain2.com>    create or update mail redirection
+omr rm <mon@domain.com>                   remove mail redirection
 `)
 }
 
@@ -168,8 +168,6 @@ var displayRedirections = function (redirections) {
 
     redirections.forEach(function (redirection) {
       console.log('    ' +
-        pad(Array(paddingId + 5).join(' '), redirection.id) +
-        ':    ' +
         pad(Array(paddingFrom + 5).join(' '), redirection.from) +
         '->    ' + redirection.to
       )
@@ -188,7 +186,21 @@ var pad = function (pad, str) {
   return (str + pad).substring(0, pad.length)
 }
 
+var getId = function (redirections, mail) {
+  var redirection = redirections.filter(function (redirection) {
+    return redirection.from === mail
+  })
+
+  if (redirection.length === 1) {
+    return redirection[0].id
+  }
+
+  return false
+}
+
+//
 // main
+//
 
 if (process.argv.length < 3) {
   displayHelp()
@@ -197,52 +209,45 @@ if (process.argv.length < 3) {
 
 var domain = process.argv[2]
 
+if (domain === 'rm') {
+  if (process.argv.length === 4) {
+    domain = process.argv[3]
+  } else {
+    displayHelp()
+    process.exit()
+  }
+}
+
+if (domain.split('@').length > 1) {
+  domain = domain.split('@')[1]
+}
+
 getMe(function (err, me) {
   if (err) return console.log(err)
 
   console.log('\nWelcome ' + me.firstname + ' you request \'' + domain + '\' domain.')
 
   if (process.argv.length === 3) {
+    // list
     return list(domain, function (err, redirections) {
       if (err) return console.log(err)
       displayRedirections(redirections)
     })
-  }
+  } else if (process.argv.length === 4) {
+    list(domain, function (err, redirections) {
+      if (err) return console.log(err)
 
-  var id, to
+      var id
 
-  switch (process.argv[3]) {
-    case 'list':
-      list(domain, function (err, redirections) {
-        if (err) return console.log(err)
-        displayRedirections(redirections)
-      })
-      break
-    case 'create':
-      if (process.argv.length === 6) {
-        var from = process.argv[4]
-        to = process.argv[5]
+      // remove
+      if (process.argv[2] === 'rm' && validator.validate(process.argv[3])) {
+        var mail = process.argv[3]
+        id = getId(redirections, mail)
 
-        if (validator.validate(from) && validator.validate(to)) {
-          create(domain, from, to, function (err, response) {
-            if (err) return console.log(err)
-
-            console.log('\nRedirection added!')
-            list(domain, function (err, redirections) {
-              if (err) return console.log(err)
-              displayRedirections(redirections)
-            })
-          })
-          break
-        } else {
-          console.log('\nError: email invalid.')
+        if (!id) {
+          console.log('\nThis mail \'' + mail + '\' doesn\'t exist.')
+          process.exit()
         }
-      }
-      displayHelp()
-      break
-    case 'remove':
-      if (process.argv.length === 5) {
-        id = process.argv[4]
 
         remove(domain, id, function (err, response) {
           if (err) return console.log(err)
@@ -251,19 +256,15 @@ getMe(function (err, me) {
           list(domain, function (err, redirections) {
             if (err) return console.log(err)
             displayRedirections(redirections)
+            process.exit()
           })
         })
-
-        break
-      }
-      displayHelp()
-      break
-    case 'update':
-      if (process.argv.length === 6) {
-        id = process.argv[4]
-        to = process.argv[5]
-
-        if (validator.validate(to)) {
+      } else if (validator.validate(process.argv[2]) && validator.validate(process.argv[3])) {
+        var from = process.argv[2]
+        var to = process.argv[3]
+        id = getId(redirections, from)
+        if (id) {
+          // update
           update(domain, id, to, function (err, response) {
             if (err) return console.log(err)
 
@@ -271,16 +272,28 @@ getMe(function (err, me) {
             list(domain, function (err, redirections) {
               if (err) return console.log(err)
               displayRedirections(redirections)
+              process.exit()
             })
           })
-          break
         } else {
-          console.log('\nError: email invalid.')
+          // create
+          create(domain, from, to, function (err, response) {
+            if (err) return console.log(err)
+
+            console.log('\nRedirection added!')
+            list(domain, function (err, redirections) {
+              if (err) return console.log(err)
+              displayRedirections(redirections)
+              process.exit()
+            })
+          })
         }
+      } else {
+        console.log('\nError: mail is invalid.')
+        displayHelp()
       }
-      displayHelp()
-      break
-    default:
-      displayHelp()
+    })
+  } else {
+    displayHelp()
   }
 })
