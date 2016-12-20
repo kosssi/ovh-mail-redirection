@@ -26,9 +26,30 @@ var getMe = function (callback) {
 }
 
 /**
- * LIST REDIRECTION
+ * LIST DOMAINS
  **/
-var listRedirection = function (domain, callback) {
+var listDomains = function (callback) {
+    var ovh = new Ovh({
+      appKey: appKey,
+      appSecret: appSecret,
+      consumerKey: consumerKey
+    })
+
+    var url = '/email/domain/'
+    ovh.request('GET', url, function (err, domains) {
+      if (err) {
+        console.log('Get Domains Error:')
+        return callback(err)
+      }
+
+      callback(null, domains)
+    })
+}
+
+/**
+ * LIST REDIRECTIONS
+ **/
+var listRedirections = function (domain, callback) {
   var ovh = new Ovh({
     appKey: appKey,
     appSecret: appSecret,
@@ -146,6 +167,7 @@ OVH Mail redirection
 
 Usage:  omr <domain> [command]
 
+orm                                       list domains
 omr <domain.com>                          list mail redirections
 omr <from@domain.com> <to@domain2.com>    create or update mail redirection
 omr rm <mon@domain.com>                   remove mail redirection
@@ -177,6 +199,13 @@ var displayRedirections = function (redirections) {
   }
 }
 
+var displayDomains = function (domains) {
+  console.log('\nDomains:\n')
+  domains.forEach(function (domain) {
+    console.log('    ' + domain)
+  })
+}
+
 // Help function
 
 var pad = function (pad, str) {
@@ -203,7 +232,12 @@ var getId = function (redirections, mail) {
 //
 
 if (process.argv.length < 3) {
-  displayHelp()
+  // listDomains
+  return listDomains(function (err, domains) {
+    if (err) return console.log(err)
+    displayDomains(domains)
+    displayHelp()
+  })
   process.exit()
 }
 
@@ -228,13 +262,13 @@ getMe(function (err, me) {
   console.log('\nWelcome ' + me.firstname + ' you request \'' + domain + '\' domain.')
 
   if (process.argv.length === 3) {
-    // listRedirection
-    return listRedirection(domain, function (err, redirections) {
+    // listRedirections
+    return listRedirections(domain, function (err, redirections) {
       if (err) return console.log(err)
       displayRedirections(redirections)
     })
   } else if (process.argv.length === 4) {
-    listRedirection(domain, function (err, redirections) {
+    listRedirections(domain, function (err, redirections) {
       if (err) return console.log(err)
 
       var id
@@ -253,7 +287,7 @@ getMe(function (err, me) {
           if (err) return console.log(err)
 
           console.log('\nRedirection removed!')
-          listRedirection(domain, function (err, redirections) {
+          listRedirections(domain, function (err, redirections) {
             if (err) return console.log(err)
             displayRedirections(redirections)
             process.exit()
@@ -269,7 +303,7 @@ getMe(function (err, me) {
             if (err) return console.log(err)
 
             console.log('\nRedirection updated!')
-            listRedirection(domain, function (err, redirections) {
+            listRedirections(domain, function (err, redirections) {
               if (err) return console.log(err)
               displayRedirections(redirections)
               process.exit()
@@ -281,7 +315,7 @@ getMe(function (err, me) {
             if (err) return console.log(err)
 
             console.log('\nRedirection added!')
-            listRedirection(domain, function (err, redirections) {
+            listRedirections(domain, function (err, redirections) {
               if (err) return console.log(err)
               displayRedirections(redirections)
               process.exit()

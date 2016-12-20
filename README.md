@@ -17,7 +17,7 @@ Managing OVH Mail Redirection!
 
 # Create Credential
 
-You should create your own credential [here](https://api.ovh.com/createToken/?GET=/me&GET=/email/domain/*/redirection*&POST=/email/domain/*/redirection*&DELETE=/email/domain/*/redirection*).
+You should create your own credential [here](https://api.ovh.com/createToken/?GET=/me&GET=/email/domain/&GET=/email/domain/*/redirection*&POST=/email/domain/*/redirection*&DELETE=/email/domain/*/redirection*).
 
 After:
 
@@ -33,6 +33,7 @@ After:
 
     Usage:  omr <domain> [command]
 
+    orm                                       list domains
     omr <domain.com>                          list mail redirections
     omr <from@domain.com> <to@domain2.com>    create or update mail redirection
     omr rm <mon@domain.com>                   remove mail redirection
