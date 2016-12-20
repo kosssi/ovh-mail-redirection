@@ -167,7 +167,7 @@ OVH Mail redirection
 
 Usage:  omr <domain> [command]
 
-orm                                       list domains
+omr                                       list domains
 omr <domain.com>                          list mail redirections
 omr <from@domain.com> <to@domain2.com>    create or update mail redirection
 omr rm <mon@domain.com>                   remove mail redirection
