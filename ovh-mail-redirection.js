@@ -26,9 +26,9 @@ var getMe = function (callback) {
 }
 
 /**
- * LIST
+ * LIST REDIRECTION
  **/
-var list = function (domain, callback) {
+var listRedirection = function (domain, callback) {
   var ovh = new Ovh({
     appKey: appKey,
     appSecret: appSecret,
@@ -60,9 +60,9 @@ var list = function (domain, callback) {
 }
 
 /**
- * CREATE
+ * CREATE REDIRECTION
  **/
-var create = function (domain, from, to, callback) {
+var createRedirection = function (domain, from, to, callback) {
   var ovh = new Ovh({
     appKey: appKey,
     appSecret: appSecret,
@@ -89,9 +89,9 @@ var create = function (domain, from, to, callback) {
 }
 
 /**
- * REMOVE
+ * REMOVE REDIRECTION
  **/
-var remove = function (domain, id, callback) {
+var removeRedirection = function (domain, id, callback) {
   var ovh = new Ovh({
     appKey: appKey,
     appSecret: appSecret,
@@ -113,9 +113,9 @@ var remove = function (domain, id, callback) {
 }
 
 /**
- * UPDATE
+ * UPDATE REDIRECTION
  **/
-var update = function (domain, id, to, callback) {
+var updateRedirection = function (domain, id, to, callback) {
   var ovh = new Ovh({
     appKey: appKey,
     appSecret: appSecret,
@@ -228,18 +228,18 @@ getMe(function (err, me) {
   console.log('\nWelcome ' + me.firstname + ' you request \'' + domain + '\' domain.')
 
   if (process.argv.length === 3) {
-    // list
-    return list(domain, function (err, redirections) {
+    // listRedirection
+    return listRedirection(domain, function (err, redirections) {
       if (err) return console.log(err)
       displayRedirections(redirections)
     })
   } else if (process.argv.length === 4) {
-    list(domain, function (err, redirections) {
+    listRedirection(domain, function (err, redirections) {
       if (err) return console.log(err)
 
       var id
 
-      // remove
+      // removeRedirection
       if (process.argv[2] === 'rm' && validator.validate(process.argv[3])) {
         var mail = process.argv[3]
         id = getId(redirections, mail)
@@ -249,11 +249,11 @@ getMe(function (err, me) {
           process.exit()
         }
 
-        remove(domain, id, function (err, response) {
+        removeRedirection(domain, id, function (err, response) {
           if (err) return console.log(err)
 
           console.log('\nRedirection removed!')
-          list(domain, function (err, redirections) {
+          listRedirection(domain, function (err, redirections) {
             if (err) return console.log(err)
             displayRedirections(redirections)
             process.exit()
@@ -264,24 +264,24 @@ getMe(function (err, me) {
         var to = process.argv[3]
         id = getId(redirections, from)
         if (id) {
-          // update
-          update(domain, id, to, function (err, response) {
+          // updateRedirection
+          updateRedirection(domain, id, to, function (err, response) {
             if (err) return console.log(err)
 
             console.log('\nRedirection updated!')
-            list(domain, function (err, redirections) {
+            listRedirection(domain, function (err, redirections) {
               if (err) return console.log(err)
               displayRedirections(redirections)
               process.exit()
             })
           })
         } else {
-          // create
-          create(domain, from, to, function (err, response) {
+          // createRedirection
+          createRedirection(domain, from, to, function (err, response) {
             if (err) return console.log(err)
 
             console.log('\nRedirection added!')
-            list(domain, function (err, redirections) {
+            listRedirection(domain, function (err, redirections) {
               if (err) return console.log(err)
               displayRedirections(redirections)
               process.exit()
