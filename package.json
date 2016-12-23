@@ -1,6 +1,6 @@
 {
   "name": "ovh-mail-redirection",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Managing OVH Mail Redirection",
   "main": "ovh-mail-redirection.js",
   "keywords": [
@@ -10,7 +10,7 @@
     "managing"
   ],
   "bin": {
-    "omr": "./ovh-mail-redirection.js"
+    "omr": "bin/omr"
   },
   "scripts": {
     "lint": "standard"
