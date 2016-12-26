@@ -151,6 +151,7 @@ var App = React.createClass({
       <MuiThemeProvider>
         <div>
           <AppBar
+            style={{borderRadius: '5px 5px 0 0 '}}
             title={
               <div>
                 <TextField id='from' hintText='From' onChange={this.fromChange} />
@@ -165,7 +166,7 @@ var App = React.createClass({
               </div>
             }
           />
-          <Paper style={{width: '260px', margin: '20px', height: '474px', backgroundColor: 'rgba(255, 255, 255, 0.7)', display: 'inline-block', verticalAlign: 'top', overflow: 'hidden'}}>
+          <Paper className='no-drag' style={{width: '260px', margin: '20px', height: '496px', backgroundColor: 'rgba(255, 255, 255, 0.7)', display: 'inline-block', verticalAlign: 'top', overflow: 'hidden'}}>
             <List style={{width: '100%'}}>
               <Subheader>
                 <span>Domains</span>
@@ -173,15 +174,15 @@ var App = React.createClass({
                   <ActionSync style={{color: 'rgba(0, 0, 0, 0.541176)'}} />
                 </IconButton>
               </Subheader>
-              <div style={{overflowY: 'scroll', height: '426px'}}>
+              <div style={{overflowY: 'scroll', height: '448px'}}>
                 {this.state.domains.map(function (i) {
                   return <ListItem primaryText={i} onClick={_this.getRedirections} style={listStyle(i)} />
                 })}
               </div>
             </List>
           </Paper>
-          <Paper style={{width: '580px', margin: '20px 20px 20px 0', height: '474px', backgroundColor: 'rgba(255, 255, 255, 0.7)', display: 'inline-block', verticalAlign: 'top', overflowY: 'hidden'}}>
-            <div style={{overflowY: 'scroll', height: '474px'}}>
+          <Paper className='no-drag' style={{width: '580px', margin: '20px 20px 20px 0', height: '496px', backgroundColor: 'rgba(255, 255, 255, 0.7)', display: 'inline-block', verticalAlign: 'top', overflowY: 'hidden'}}>
+            <div style={{overflowY: 'scroll', height: '496px'}}>
               <Table multiSelectable='true' onRowSelection={_this.rowSelected}>
                 <TableBody deselectOnClickaway={false}>
                   {this.state.redirections.map(function (redirection) {
@@ -202,7 +203,7 @@ var App = React.createClass({
             autoHideDuration={4000}
             onRequestClose={this.snackbarClose}
           />
-          <LinearProgress mode='indeterminate' style={{position: 'absolute', bottom: 0, display: this.state.progressBar ? 'block' : 'none'}} />
+          <LinearProgress mode='indeterminate' style={{borderRadius: 'none', position: 'absolute', top: '64px', display: this.state.progressBar ? 'block' : 'none'}} />
         </div>
       </MuiThemeProvider>
     )

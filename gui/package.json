@@ -1,7 +1,7 @@
 {
   "main": "es6-init.js",
   "scripts": {
-    "start": "rm -rf .cache && cross-env NODE_ENV=production electron .",
+    "start": "rm -rf .cache && cross-env NODE_ENV=production electron . --enable-transparent-visuals --disable-gpu",
     "clean-cache": "rm -rf .cache",
     "clean-source": "node cleaner.js \"./dist\"",
     "compile": "cross-env NODE_ENV=production electron-compile --appDir . ./src",

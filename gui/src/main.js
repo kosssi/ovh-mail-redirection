@@ -17,7 +17,9 @@ let windowParams = {
   width: 900,
   height: 600,
   resizable: false,
-  show: false
+  show: false,
+  frame: false,
+  transparent: true
 }
 let tray
 
