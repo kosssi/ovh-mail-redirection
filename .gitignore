@@ -1,1 +1,4 @@
-node_modules
+/node_modules
+/gui/node_modules
+/gui/dist
+/gui/.cache

@@ -36,15 +36,15 @@ var getMe = function (callback) {
  * LIST DOMAINS
  **/
 var listDomains = function (callback) {
-    var url = '/email/domain/'
-    request('GET', url, null, function (err, domains) {
-      if (err) {
-        console.log('Get Domains Error:')
-        return callback(err)
-      }
+  var url = '/email/domain/'
+  request('GET', url, null, function (err, domains) {
+    if (err) {
+      console.log('Get Domains Error:')
+      return callback(err)
+    }
 
-      callback(null, domains)
-    })
+    callback(null, domains)
+  })
 }
 
 /**

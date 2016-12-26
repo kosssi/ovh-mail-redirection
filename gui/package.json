@@ -1,0 +1,40 @@
+{
+  "main": "es6-init.js",
+  "scripts": {
+    "start": "rm -rf .cache && cross-env NODE_ENV=production electron .",
+    "clean-cache": "rm -rf .cache",
+    "clean-source": "node cleaner.js \"./dist\"",
+    "compile": "cross-env NODE_ENV=production electron-compile --appDir . ./src",
+    "package": "run-s clean-cache compile package-linux package-win clean-source",
+    "package-linux": "cross-env NODE_ENV=production electron-packager . 'OvhMailRedirection' --out=dist --platform=linux --arch=all --overwrite --ignore=\".compilerc|.gitignore|cleaner.js\"",
+    "package-win": "cross-env NODE_ENV=production electron-packager . 'OvhMailRedirection' --out=dist --platform=win32 --arch=all --overwrite --ignore=\".compilerc|.gitignore|cleaner.js\"",
+    "quick-package": "run-s clean-cache compile package-for-this clean-source",
+    "package-for-this": "cross-env NODE_ENV=production electron-packager . 'OvhMailRedirection' --out=dist --overwrite --icon './src/assets/img/omr.icns' --ignore=\".compilerc|.gitignore|cleaner.js\""
+  },
+  "devDependencies": {
+    "babel": "6.5.2",
+    "babel-plugin-transform-async-to-generator": "6.16.0",
+    "babel-plugin-transform-class-properties": "6.19.0",
+    "babel-plugin-transform-runtime": "6.15.0",
+    "babel-preset-es2016-node5": "1.1.2",
+    "babel-preset-react": "6.16.0",
+    "babel-preset-stage-0": "6.16.0",
+    "cross-env": "3.1.3",
+    "electron": "1.4.13",
+    "electron-compilers": "5.1.1",
+    "electron-devtools-installer": "2.0.1",
+    "electron-packager": "8.4.0",
+    "npm-run-all": "3.1.2",
+    "recursive-readdir": "2.1.0"
+  },
+  "dependencies": {
+    "babel-runtime": "6.20.0",
+    "electron-compile": "5.0.0",
+    "electron-is-dev": "0.1.2",
+    "electron-reload": "1.1.0",
+    "material-ui": "0.16.6",
+    "react": "15.4.1",
+    "react-dom": "15.4.1",
+    "shell-env": "0.3.0"
+  }
+}
