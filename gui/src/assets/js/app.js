@@ -16,7 +16,8 @@ import Subheader from 'material-ui/Subheader'
 
 import AppBar from 'material-ui/AppBar'
 
-import omr from '../../../../ovh-mail-redirection'
+import omr from 'ovh-mail-redirection'
+import shellEnv from 'shell-env'
 
 import IconButton from 'material-ui/IconButton'
 import ActionSync from 'material-ui/svg-icons/notification/sync'
@@ -25,6 +26,13 @@ import LinearProgress from 'material-ui/LinearProgress'
 
 var App = React.createClass({
   getInitialState: function () {
+    if (process.env.OMR_APP_KEY === undefined || process.env.OMR_APP_SECRET === undefined || process.env.OMR_CONSUMER_KEY === undefined) {
+      var env = shellEnv.sync()
+
+      process.env.OMR_APP_KEY = env.OMR_APP_KEY
+      process.env.OMR_APP_SECRET = env.OMR_APP_SECRET
+      process.env.OMR_CONSUMER_KEY = env.OMR_CONSUMER_KEY
+    }
     this.getDomains()
     return {
       domains: [],

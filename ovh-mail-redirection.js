@@ -11,9 +11,9 @@ var consumerKey = process.env.OMR_CONSUMER_KEY
 
 var request = function (method, url, data, callback) {
   var ovh = new Ovh({
-    appKey: appKey,
-    appSecret: appSecret,
-    consumerKey: consumerKey
+    appKey: appKey || process.env.OMR_APP_KEY,
+    appSecret: appSecret || process.env.OMR_APP_SECRET,
+    consumerKey: consumerKey || process.env.OMR_CONSUMER_KEY
   })
 
   if (data) {

@@ -14,7 +14,7 @@ function cleanDirectory (path) {
         cleanFile(file)
       })
     } else {
-            // throw err;
+        // throw err;
     }
   })
 }
