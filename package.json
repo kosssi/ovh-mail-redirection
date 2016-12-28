@@ -1,6 +1,6 @@
 {
   "name": "ovh-mail-redirection",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Managing OVH Mail Redirection",
   "main": "ovh-mail-redirection.js",
   "keywords": [
