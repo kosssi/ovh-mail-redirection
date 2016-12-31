@@ -17,6 +17,7 @@ import Subheader from 'material-ui/Subheader'
 import AppBar from 'material-ui/AppBar'
 
 import omr from 'ovh-mail-redirection'
+import Data from './data'
 import shellEnv from 'shell-env'
 
 import IconButton from 'material-ui/IconButton'
@@ -33,7 +34,7 @@ var App = React.createClass({
       process.env.OMR_APP_SECRET = env.OMR_APP_SECRET
       process.env.OMR_CONSUMER_KEY = env.OMR_CONSUMER_KEY
     }
-    this.getDomains()
+    this.data = new Data()
     return {
       domains: [],
       domain: '',
@@ -46,13 +47,16 @@ var App = React.createClass({
       progressBar: false
     }
   },
+  componentWillMount: function() {
+    this.getDomains();
+  },
   getDomains: function () {
     var _this = this
-    this.setState({progressBar: true})
-    omr.listDomains(function (err, domains) {
+
+    this.setState({progressBar: true, domains: this.data.getDomains()})
+    this.data.updateDomainsFromServer((err, domains) => {
       if (err) {
-        console.log(err)
-        return
+        return console.log(err)
       }
       _this.setState({
         domains: domains,
@@ -68,11 +72,10 @@ var App = React.createClass({
     } else {
       domain = element.currentTarget.textContent
     }
-    this.setState({domain: domain, progressBar: true})
-    omr.listRedirections(domain, function (err, redirections) {
+    this.setState({domain: domain, progressBar: true, redirections: this.data.getRedirections(domain)})
+    this.data.updateRedirectionsFromServer(domain, (err, redirections) => {
       if (err) {
-        console.log(err)
-        return
+        return console.log(err)
       }
       _this.setState({redirections: redirections, progressBar: false})
     })

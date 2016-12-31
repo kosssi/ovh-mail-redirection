@@ -1,15 +1,18 @@
 {
+  "name": "ovh-mail-redirection",
+  "version": "2.1.2",
   "main": "es6-init.js",
   "scripts": {
     "start": "rm -rf .cache && cross-env NODE_ENV=production electron . --enable-transparent-visuals --disable-gpu",
     "clean-cache": "rm -rf .cache",
-    "clean-source": "node cleaner.js \"./dist\"",
+    "clean-source": "node build/cleaner.js './dist'",
     "compile": "cross-env NODE_ENV=production electron-compile --appDir . ./src",
-    "package": "run-s clean-cache compile package-linux package-win clean-source",
-    "package-linux": "cross-env NODE_ENV=production electron-packager . 'OvhMailRedirection' --out=dist --platform=linux --arch=all --overwrite --ignore=\".compilerc|.gitignore|cleaner.js\"",
-    "package-win": "cross-env NODE_ENV=production electron-packager . 'OvhMailRedirection' --out=dist --platform=win32 --arch=all --overwrite --ignore=\".compilerc|.gitignore|cleaner.js\"",
-    "quick-package": "run-s clean-cache compile package-for-this clean-source",
-    "package-for-this": "cross-env NODE_ENV=production electron-packager . 'OvhMailRedirection' --out=dist --overwrite --icon './src/assets/img/omr.icns' --ignore=\".compilerc|.gitignore|cleaner.js\""
+    "package-linux": "cross-env NODE_ENV=production electron-packager . 'ovh-mail-redirection' --out=dist --platform=linux  --arch=x64 --prune=true --overwrite --ignore='.compilerc|build' --icon=build/omr.png",
+    "package-mac":   "cross-env NODE_ENV=production electron-packager . 'ovh-mail-redirection' --out=dist --platform=darwin --arch=x64 --prune=true --overwrite --ignore='.compilerc|build' --icon=build/omr.icns",
+    "create-installer-debian": "electron-installer-debian --src dist/ovh-mail-redirection-linux-x64/ --dest dist --arch amd64",
+    "create-installer-mac":    "electron-installer-dmg dist/ovh-mail-redirection-darwin-x64/ovh-mail-redirection.app ovh-mail-redirection --out=dist --overwrite --icon=build/omr.icns",
+    "package-on-mac": "run-s clean-cache compile package-mac create-installer-mac package-linux create-installer-debian clean-source",
+    "package-on-linux": "run-s clean-cache compile package-linux clean-source"
   },
   "devDependencies": {
     "babel": "6.5.2",
@@ -23,6 +26,8 @@
     "electron": "1.4.13",
     "electron-compilers": "5.1.1",
     "electron-devtools-installer": "2.0.1",
+    "electron-installer-debian": "0.4.0",
+    "electron-installer-dmg": "0.1.2",
     "electron-packager": "8.4.0",
     "npm-run-all": "3.1.2",
     "recursive-readdir": "2.1.0"
