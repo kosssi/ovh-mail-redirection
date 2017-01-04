@@ -162,7 +162,7 @@ var App = React.createClass({
       <MuiThemeProvider>
         <div>
           <AppBar
-            style={{borderRadius: '5px 5px 0 0 '}}
+            style={{borderRadius: '5px 5px 0 0', backgroundColor: 'rgba(0, 188, 212, 0.8)'}}
             title={
               <div>
                 <TextField id='from' hintText='From' onChange={this.fromChange} />
@@ -192,9 +192,9 @@ var App = React.createClass({
               </div>
             </List>
           </Paper>
-          <Paper className='no-drag' style={{width: '580px', margin: '20px 20px 20px 0', height: '496px', backgroundColor: 'rgba(255, 255, 255, 0.7)', display: 'inline-block', verticalAlign: 'top', overflowY: 'hidden'}}>
+          <Paper className='no-drag' style={{width: '580px', margin: '20px 20px 20px 0', height: '496px', backgroundColor: 'rgba(255, 255, 255, 0.7)', display: this.state.domain ? 'inline-block' : 'none', verticalAlign: 'top', overflowY: 'hidden'}}>
             <div style={{overflowY: 'scroll', height: '496px'}}>
-              <Table multiSelectable='true' onRowSelection={_this.rowSelected}>
+              <Table multiSelectable='true' onRowSelection={_this.rowSelected} style={{backgroundColor: 'rgba(255, 255, 255, 0)'}}>
                 <TableBody deselectOnClickaway={false}>
                   {this.state.redirections.map(function (redirection) {
                     return (
