@@ -56,7 +56,13 @@ app.on('ready', () => {
   tray.setToolTip('Ovh Mail Redirection')
   tray.on('click', () => {
     if (mainWindow) {
-      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+      if (mainWindow.isVisible()) {
+        mainWindow.hide()
+        if (process.platform === 'darwin') { app.dock.hide() }
+      } else {
+        mainWindow.show()
+        if (process.platform === 'darwin') { app.dock.show() }
+      }
     } else {
       createWindow()
     }
