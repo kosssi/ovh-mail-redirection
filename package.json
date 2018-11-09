@@ -28,7 +28,7 @@
   "dependencies": {
     "async": "2.1.5",
     "email-validator": "1.0.7",
-    "ovh": "2.0.1"
+    "ovh": "2.0.2"
   },
   "devDependencies": {
     "standard": "9.0.0-beta.0"
